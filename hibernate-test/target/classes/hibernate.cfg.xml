@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- 指定连接数据库所用的驱动 -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!-- 指定连接数据库的url，hibernate连接的数据库名 -->
+        <property name="connection.url">jdbc:mysql://localhost/hibernate?useUnicode=true&amp;characterEncoding=utf-8 </property>
+        <!-- 指定连接数据库的用户名 -->
+        <property name="connection.username">root</property>
+        <!-- 指定连接数据库的密码 -->
+        <property name="connection.password">zxytqq120</property>
+        <!-- 指定连接池里最大连接数 -->
+        <property name="hibernate.c3p0.max_size">20</property>
+        <!-- 指定连接池里最小连接数 -->
+        <property name="hibernate.c3p0.min_size">1</property>
+        <!-- 指定连接池里连接的超时时长 -->
+        <property name="hibernate.c3p0.timeout">5000</property>
+        <!-- 指定连接池里最大缓存多少个Statement对象 -->
+        <property name="hibernate.c3p0.max_statements">100</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
+        <property name="hibernate.c3p0.acquire_increment">2</property>
+        <property name="hibernate.c3p0.validate">true</property>
+        <!-- 指定数据库方言 -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!-- 根据需要自动创建数据库 -->
+        <property name="hbm2ddl.auto">update</property>
+        <!-- 显示Hibernate持久化操作所生成的SQL -->
+        <property name="current_session_context_class">thread</property>
+        <!-- 将SQL脚本进行格式化后再输出 -->
+        <property name="hibernate.format_sql">true</property>
+
+        <mapping class="zxy.mysql.homework1.model.Carriage"></mapping>
+        <mapping class="zxy.mysql.homework1.model.CarriageSeat"></mapping>
+        <mapping class="zxy.mysql.homework1.model.CarriageSet"></mapping>
+        <mapping class="zxy.mysql.homework1.model.CarriageType"></mapping>
+        <mapping class="zxy.mysql.homework1.model.City"></mapping>
+        <mapping class="zxy.mysql.homework1.model.DockingStation"></mapping>
+        <mapping class="zxy.mysql.homework1.model.Rail"></mapping>
+        <mapping class="zxy.mysql.homework1.model.Route"></mapping>
+        <mapping class="zxy.mysql.homework1.model.RunChart"></mapping>
+        <mapping class="zxy.mysql.homework1.model.RunChartSeat"></mapping>
+        <mapping class="zxy.mysql.homework1.model.Seat"></mapping>
+        <mapping class="zxy.mysql.homework1.model.SeatType"></mapping>
+        <mapping class="zxy.mysql.homework1.model.Station"></mapping>
+        <mapping class="zxy.mysql.homework1.model.TicketPrice"></mapping>
+        <mapping class="zxy.mysql.homework1.model.Train"></mapping>
+        <mapping class="zxy.mysql.homework1.model.TrainType"></mapping>
+        <mapping class="zxy.mysql.homework1.model.TrainCarriages"></mapping>
+        <mapping class="zxy.mysql.homework1.model.TrainNo"></mapping>
+    </session-factory>
+</hibernate-configuration>
