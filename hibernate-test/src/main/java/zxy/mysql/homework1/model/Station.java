@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,6 +21,8 @@ public class Station {
     private City city;
     private Set<TicketPrice> ticketPrices;
     private Set<DockingStation> dockingStations;
+    private List<LeftSeat> leftSeatList;
+    private List<IntervalSeat> intervalSeats;
     @OneToMany(mappedBy = "station",fetch = FetchType.EAGER)
     public Set<DockingStation> getDockingStations() {
         return dockingStations;
@@ -83,5 +86,23 @@ public class Station {
 
     public void setTicketPrices(Set<TicketPrice> ticketPrices) {
         this.ticketPrices = ticketPrices;
+    }
+    @OneToMany(mappedBy="from")
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    public List<LeftSeat> getLeftSeatList() {
+        return leftSeatList;
+    }
+
+    public void setLeftSeatList(List<LeftSeat> leftSeatList) {
+        this.leftSeatList = leftSeatList;
+    }
+    @OneToMany(mappedBy= "fromSta")
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    public List<IntervalSeat> getIntervalSeats() {
+        return intervalSeats;
+    }
+
+    public void setIntervalSeats(List<IntervalSeat> intervalSeats) {
+        this.intervalSeats = intervalSeats;
     }
 }

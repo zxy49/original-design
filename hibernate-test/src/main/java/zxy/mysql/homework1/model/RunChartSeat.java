@@ -1,6 +1,10 @@
 package zxy.mysql.homework1.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by zxy on 2016/10/19.
@@ -12,6 +16,7 @@ public class RunChartSeat {
     private RunChart runChart;
     private String seatType;
     private String seatDesc;
+    private List<IntervalSeat> intervalSeats;
 //    private boolean isTaken;
     @Id
     @Column(name="run_chart_seat_id")
@@ -49,7 +54,15 @@ public class RunChartSeat {
     public void setSeatDesc(String seatDesc) {
         this.seatDesc = seatDesc;
     }
+    @OneToMany(mappedBy = "runChartSeat")
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    public List<IntervalSeat> getIntervalSeats() {
+        return intervalSeats;
+    }
 
+    public void setIntervalSeats(List<IntervalSeat> intervalSeats) {
+        this.intervalSeats = intervalSeats;
+    }
     //    @Column(name="seat_is_taken",length=1,columnDefinition = "boolean default true",nullable = false)
 //    public boolean isTaken() {
 //        return isTaken;

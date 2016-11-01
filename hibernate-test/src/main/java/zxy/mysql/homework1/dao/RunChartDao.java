@@ -10,5 +10,7 @@ import java.util.List;
 public interface RunChartDao {
     public RunChart getRunChartById(int id);
     public List<RunChart> getRunChartByHql(String hql);
+    public void update(RunChart runChart);
     public void save(RunChart runChart);
+    public void delete(RunChart runChart);
 }

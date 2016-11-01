@@ -6,6 +6,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,7 +19,7 @@ public class Route {
     private String routeDesc;
     private boolean routeStatus;
     private Set<TrainNo> trainNos;
-    private Set<DockingStation> dockingStations;
+    private List<DockingStation> dockingStations;
     @OneToMany(mappedBy = "route")
     @LazyCollection(LazyCollectionOption.EXTRA)
     public Set<TrainNo> getTrainNos() {
@@ -30,11 +31,11 @@ public class Route {
     }
     @OneToMany(mappedBy = "route")
     @LazyCollection(LazyCollectionOption.EXTRA)
-    public Set<DockingStation> getDockingStations() {
+    public List<DockingStation> getDockingStations() {
         return dockingStations;
     }
 
-    public void setDockingStations(Set<DockingStation> dockingStations) {
+    public void setDockingStations(List<DockingStation> dockingStations) {
         this.dockingStations = dockingStations;
     }
 

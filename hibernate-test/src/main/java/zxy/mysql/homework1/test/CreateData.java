@@ -5,10 +5,8 @@ import zxy.mysql.homework1.dao.*;
 import zxy.mysql.homework1.dao.dao.impl.*;
 import zxy.mysql.homework1.model.*;
 
-import java.sql.*;
 import java.util.*;
 import java.sql.Date;
-import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by zxy on 2016/10/20.
@@ -29,6 +27,100 @@ public class CreateData {
 //        insertToTrainCarriage();
 //        insertToRunChart();
 //        insertToRunChartSeat();
+
+//        updateRunChart();
+
+            Transaction transaction = baseDao.getSession().getTransaction();
+            try{
+                transaction.begin();
+                queryRunChartSeatInterval();
+                transaction.commit();
+            }catch (Exception e){
+                transaction.rollback();
+            }
+
+
+    }
+
+    public static void queryRunChartSeatInterval(){
+        RunChartDao runChartDao = new RunChartDaoImpl();
+        String hql = "from RunChart";
+        List<RunChart> runCharts = runChartDao.getRunChartByHql(hql);
+        for(int i=0;i<runCharts.size();i++){
+            RunChart runChart = runCharts.get(i);
+            int rcs = runChart.getRunChartSeats().size();
+            List<IntervalSeat> intervalSeats = runChart.getIntervalSeats();
+            int iss = intervalSeats.size();
+            int routeSize = runChart.getTrainNo().getRoute().getRouteDesc().split("-").length;
+            if((rcs*routeSize*(routeSize-1)/2)!=iss){
+                System.out.println("runChart: "+runChart.getRunChartId()+"      rcs: "+rcs +"       iss: "+iss+"        routeSize: "+routeSize);
+            }
+        }
+
+
+    }
+
+    public static void insertToIntervalSeat(int start ,int end){
+        RunChartDao runChartDao = new RunChartDaoImpl();
+        String hql = "from RunChart";
+        List<RunChart> runCharts = runChartDao.getRunChartByHql(hql);
+        IntervalSeatDao intervalSeatDao = new IntervalSeatDaoImpl();
+        System.out.println(runCharts.size());
+        if(runCharts.size()>0){
+//            for(int i=0;i<1;i++){
+            for(int i=start;i<runCharts.size();i++){
+                RunChart runChart = runCharts.get(i);
+                List<RunChartSeat> runChartSeats = runChart.getRunChartSeats();
+                TrainNo trainNo = runChart.getTrainNo();
+                Route route = trainNo.getRoute();
+                List<DockingStation> stations = route.getDockingStations();
+
+                for(int h=0;h<runChartSeats.size();h++){
+                    RunChartSeat runChartSeat = runChartSeats.get(h);
+                    runChartSeat.getSeatType();
+                    for(int j=0;j<stations.size();j++){
+                        DockingStation station = stations.get(j);
+
+                        for(int k=0;k<stations.size();k++){
+                            if(k!=j){
+                                DockingStation dStation = stations.get(k);
+                                if(station.getDockingstationOrderNo()<dStation.getDockingstationOrderNo()){
+//                                System.out.println(station.getStation().getStationName()+"-"+station.getDockingstationOrderNo()+"     "+dStation.getStation().getStationName()+"-"+dStation.getDockingstationOrderNo());
+                                    IntervalSeat intervalSeat = new IntervalSeat();
+                                    intervalSeat.setFromSta(station.getStation());
+                                    intervalSeat.setToSta(dStation.getStation());
+                                    intervalSeat.setRunChart(runChart);
+                                    intervalSeat.setStatus(true);
+                                    intervalSeat.setRunChartSeat(runChartSeat);
+                                    intervalSeatDao.save(intervalSeat);
+                                }
+                            }
+                        }
+                    }
+                }
+                System.out.println("runChart "+runChart.getRunChartId()+"   i="+i+"     save finished");
+
+
+            }
+        }
+
+    }
+
+    public static void updateRunChart(){
+        String hql = "from RunChart";
+        RunChartDao runChartDao = new RunChartDaoImpl();
+        List<RunChart> runCharts = runChartDao.getRunChartByHql(hql);
+        if(runCharts.size()>0){
+            for(int i=1;i<=runCharts.size();i++){
+                RunChart runChart = runCharts.get(i-1);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date(System.currentTimeMillis()));
+                cal.add(Calendar.DATE, i%8);
+                Date date = new Date(cal.getTime().getTime());
+                runChart.setRunChartRunTime(date);
+                runChartDao.update(runChart);
+            }
+        }
 
 
     }

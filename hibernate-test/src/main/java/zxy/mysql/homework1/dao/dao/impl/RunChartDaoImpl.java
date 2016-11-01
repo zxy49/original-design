@@ -21,7 +21,15 @@ public class RunChartDaoImpl implements RunChartDao{
         return runCharts;
     }
 
+    public void update(RunChart runChart) {
+        baseDao.update(runChart);
+    }
+
     public void save(RunChart runChart) {
         baseDao.save(runChart);
+    }
+
+    public void delete(RunChart runChart) {
+        baseDao.delete(runChart);
     }
 }

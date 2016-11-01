@@ -2,8 +2,10 @@ package zxy.mysql.homework1.model;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,6 +18,10 @@ public class SeatType {
     private String seatTypeNmae;
     private String SeatTypeDes;
     private Set<Seat> seats;
+    private List<LeftSeat> leftSeats;
+
+
+
     @Id
     @Column(name="seat_type_id")
     @GeneratedValue
@@ -50,5 +56,14 @@ public class SeatType {
 
     public void setSeats(Set<Seat> seats) {
         this.seats = seats;
+    }
+    @OneToMany(mappedBy = "seatType")
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    public List<LeftSeat> getLeftSeats() {
+        return leftSeats;
+    }
+
+    public void setLeftSeats(List<LeftSeat> leftSeats) {
+        this.leftSeats = leftSeats;
     }
 }
